@@ -1,0 +1,4 @@
+EC_number_prediction/models/c40/*pkl filter=lfs diff=lfs merge=lfs -text
+EC_number_prediction/models/c40/subclasses/*pkl filter=lfs diff=lfs merge=lfs -text
+EC_number_prediction/models/swiss/*pkl filter=lfs diff=lfs merge=lfs -text
+EC_number_prediction/models/swiss/subclasses/*pkl filter=lfs diff=lfs merge=lfs -text
