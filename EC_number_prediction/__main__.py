@@ -58,9 +58,9 @@ def main():
 
 ##### Prediction of up to which EC number
 
-            if str(level) == '0':
-                predicted = prediction.is_enzyme([value])
-            elif level == '1':
+            #if str(level) == '0':
+            #    predicted = prediction.is_enzyme([value])
+            if level == '1':
                 predicted = prediction.lvl1_pred([value])
             elif level == '2':
                 predicted = prediction.lvl2_pred([value])

@@ -17,38 +17,38 @@ warnings.filterwarnings("ignore", category=ConvergenceWarning)
 class C40_Model:
     def __init__ (self, embedding):
         self.embedding = embedding
-        self.lvl0 = 0
+        #self.lvl0 = 0
         self.lvl1 = 0
         self.lvl2 = 0
         self.lvl3 = 0
         self.lvl4 = 0
 
-    def is_enzyme(self, emb):
-        model = load("EC_number_prediction/models/c40/c40_model_lvl0.pkl")
-        m = model.predict(self.embedding)
-        perc = model.predict_proba(self.embedding)
-        if  m == 0:
-            return "This sequence is not of an Enzyme", round(np.max(perc*100))
-        else:
+    #def is_enzyme(self, emb):
+    #    model = load("EC_number_prediction/models/c40/c40_model_lvl0.pkl")
+    #    m = model.predict(self.embedding)
+    #    perc = model.predict_proba(self.embedding)
+    #    if  m == 0:
+    #        return "This sequence is not of an Enzyme", round(np.max(perc*100))
+    #    else:
             return "This sequence is of an Enzyme", round(np.max(perc*100))
 
     def lvl1_pred(self, emb):
-        res, conf = self.is_enzyme(self.embedding)
-        if res == "This sequence is not of an Enzyme":
-            return "Not an Enzyme", conf
-        else:
-            file = "EC_number_prediction/models/c40/c40_model_lvl1.pkl"
-            model = load(file)
-            conf = round(np.max(model.predict_proba(self.embedding)*100))
+#        res, conf = self.is_enzyme(self.embedding)
+#        if res == "This sequence is not of an Enzyme":
+#            return "Not an Enzyme", conf
+#        else:
+        file = "EC_number_prediction/models/c40/c40_model_lvl1.pkl"
+        model = load(file)
+        conf = round(np.max(model.predict_proba(self.embedding)*100))
             m = model.predict(self.embedding)
             # print(f"this here is the embedding {self.embedding}")
-            return int(m), conf
+        return int(m), conf
 
     def lvl2_pred (self, emb):
         #print(self.embedding)
         self.lvl1, conf = self.lvl1_pred(self.embedding)
-        if self.lvl1 == "Not an Enzyme":
-            return "Not an Enzyme", conf
+        #if self.lvl1 == "Not an Enzyme":
+        #    return "Not an Enzyme", conf
 
         file = f"EC_number_prediction/models/c40/c40_model_mainclass{int(self.lvl1)}.pkl"
         model = load(file)
@@ -62,8 +62,8 @@ class C40_Model:
         # individual case
 
         self.embedding = np.array(self.embedding, dtype="float64")
-        if self.lvl2_pred(self.embedding)[0] == "Not an Enzyme":
-            return self.lvl2_pred(self.embedding)
+        #if self.lvl2_pred(self.embedding)[0] == "Not an Enzyme":
+        #    return self.lvl2_pred(self.embedding)
 
         lvl1_sc, lvl2_sc = self.lvl2_pred(self.embedding)
         self.lvl1, conf_1 = lvls_sc.split(".")
@@ -78,9 +78,7 @@ class C40_Model:
             model = load(file)
             #print(f"{self.lvl1}.{self.lvl2}")
             self.lvl3 = model.predict(self.embedding)
-            #print("sc_3")
             conf_3 =  round(np.max(model.predict_proba(self.embedding)*100))
             return f"{self.lvl1}.{self.lvl2}.{int(self.lvl3)}", f"{conf_1}%.{conf_2}%.{conf_3}%"
         else:
-            print("sc_4")
             return f"{self.lvl1}.{self.lvl2}.-", f"{conf_1}%.{conf_2}%.-"
