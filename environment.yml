@@ -1,4 +1,4 @@
-name: mymodel
+name: tpot_ec
 channels:
   - conda-forge
   - defaults
@@ -6,7 +6,6 @@ dependencies:
   - python=3.8
   - tpot
   - biopython
-  - sklearn=1.2
   - pip
   - pip:
     - bio-embeddings[all]
